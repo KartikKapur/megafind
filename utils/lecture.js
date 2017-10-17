@@ -6,7 +6,7 @@ const fs = require('fs');
 const SparkPostClient = require('./sparkpost')
 var AWS = require('aws-sdk');
 
-const DIGEST_LINK = 'https://s3.amazonaws.com/megafind-digest/digest.txt'
+const DIGEST_LINK = 'https://s3.amazonaws.com/megafind-digest1/digest.txt'
 
 AWS.config.loadFromPath('aws-credentials.json');
 
@@ -119,17 +119,17 @@ class Lecture {
           stream.end();
       })
     });
-    var s3Bucket = new AWS.S3( { params: {Bucket: 'megafind-digest'} } )
+    var s3Bucket = new AWS.S3( { params: {Bucket: 'megafind-digest1'} } )
 
     setTimeout(function() {
       fs.readFile('digest.txt', function (err, data) {
           if (err) throw err;
-          var params = {Bucket: 'megafind-digest', Key: 'digest.txt', Body: data};
+          var params = {Bucket: 'megafind-digest1', Key: 'digest.txt', Body: data};
           s3.putObject(params, function(err, data) {
             if (err) {
                 console.log(err)
             } else {
-                console.log("Successfully uploaded data to megafind-digest/digest.txt");
+                console.log("Successfully uploaded data to megafind-digest1/digest.txt");
                 const sp = new SparkPostClient();
                 sp.sendMail(DIGEST_LINK);
             }
